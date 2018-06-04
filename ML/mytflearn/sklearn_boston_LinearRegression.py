@@ -3,6 +3,9 @@ from sklearn import datasets
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
+from sklearn.model_selection import cross_val_score
+from sklearn.cross_validation import KFold
+
 loaded_data = datasets.load_boston()
 
 data_x = loaded_data.data
@@ -26,3 +29,4 @@ plt.show()
 ##print(model.get_params())#之前定义的参数
 
 print(model.score(data_x,data_y))#准确率
+
