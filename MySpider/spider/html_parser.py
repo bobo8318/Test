@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import re
 import urllib.parse
+from spider import cp_parser as cp
 
 class HtmlParser(object):
     def parse(self, new_url, html_content):
@@ -33,3 +34,11 @@ class HtmlParser(object):
 
         return res_data
     pass
+    
+    def get_cp_data(self,html_content):
+        soup = BeautifulSoup(html_content,"lxml",from_encoding="utf-8")
+        if(soup.table is not None):
+            print("parseing...")
+            parser = cp.Cp_parser()
+            parser.parseTd(soup)
+        print("finish parse...")
