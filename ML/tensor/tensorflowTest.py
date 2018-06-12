@@ -4,6 +4,13 @@ Created on Wed May  9 23:50:54 2018
 
 @author: My
 """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import argparse
+import sys
+
 
 import tensorflow as tf
 import numpy
@@ -32,10 +39,13 @@ activation = tf.add(tf.multiply(X, w), b)#y = wx+b
 cost = tf.reduce_sum(tf.pow(activation-Y,2))/(2*n_samples)
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
-init = tf.initialize_all_variables()
-#init = tf.global_variables_initializer()
+#init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 
-with tf.Session() as sess:
+
+with tf.InteractiveSession() as sess:
+    writer = tf.summary.FileWriter("logs/", sess.graph)
+
     sess.run(init)
     sess.run(optimizer, feed_dict={X: train_X, Y: train_Y})
     print("Optimization Finished!")
