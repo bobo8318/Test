@@ -17,7 +17,12 @@ class SQLHelper(object):
                           db=self.database,
                           charset='utf8')
         cursor = db.cursor()
-        cursor.execute("select lotteryno from lottery order by lotteryno desc limit 0,1 ")
+        cursor.execute("select * from lottery order by lotteryno desc limit 0,1 ")
         data = cursor.fetchone()
         db.close()
         return data
+    
+if __name__ == '__main__':
+   sql = SQLHelper()
+   print(sql.getCurentNo())
+pass
