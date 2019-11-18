@@ -11,6 +11,10 @@ boston = datasets.load_boston()
 # use model
 linreg = linear_model.LinearRegression()
 
+lassoreg = linear_model.Lasso()
+
+ridgereg = linear_model.Ridge()
+
 # split data
 X_train, X_test, y_train, y_test = modsel.train_test_split(boston.data, boston.target, test_size=0.1, random_state=42)
 linreg.fit(X_train,y_train)
