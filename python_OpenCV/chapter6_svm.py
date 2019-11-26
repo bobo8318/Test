@@ -61,7 +61,9 @@ for idx, kernel in enumerate(kernels):
 # 自然环境下检测
 # 获取数据
 from tools import OpenTools
-datadir =  "G:/test/opencv-machine-learning/notebooks/data/chapter6"
+datadir =  "/opt/gitwb/opencv-machine-learning/notebooks/data/chapter6" #linux
+# datadir =  "G:/test/opencv-machine-learning/notebooks/data/chapter6" #win
+
 dataset = "pedestrians128x64"
 fade_dataset = "pedestrians_neg"
 
@@ -168,9 +170,10 @@ for ystart in np.arange(0, img_test.shape[0], stride):
 
 sv = svm.getSupportVectors()
 rho, _, _ = svm.getDecisionFunction(0)# 多尺寸检测
+
 hog.setSVMDetector(np.append(sv.ravel(), rho))
 found = hog.detectMultiScale(img_test)
-# 
+
 hogdef = cv2.HOGDescriptor(win_size, block_size, block_stride, cell_size, num_bins)
 pdetect = cv2.HOGDescriptor_getDaimlerPeopleDetector()
 hogdef.setSVMDetector(pdetect) # opencv 训练好的自带的分类器
