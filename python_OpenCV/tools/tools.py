@@ -12,4 +12,6 @@ class OpenTools():
         tar.close()
         print("%s successfully extracted to %s" % (dataFile, extraDir))
         pass
-
+    def test(self):
+        print("hello world")
+        pass
