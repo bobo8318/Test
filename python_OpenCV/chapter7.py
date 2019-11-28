@@ -30,19 +30,38 @@ class Bayes():
         self.model_norm = cv2.ml.NormalBayesClassifier_create()
         self.model_norm.train(self.x_train, cv2.ml.ROW_SAMPLE, self.y_train)
     # 进行预测
-    def predict(self):
-        _, self.y_pred = self.model_norm.predict(self.x_test)
+    def predict(self, testdata):
+        if testdata == None:
+            
+            _, self.y_pred = self.model_norm.predict(self.x_test)
+        else:
+            print('use test data')
+            _, self.y_pred = self.model_norm.predict(testdata)
         return self.y_pred
     # 进行评估
     def score(self):
         return metrics.accuracy_score(self.y_test, self.y_pred)
     # 决策边界
     def getXHypo(self):
-        print("-----------------------------------")
-        print(self.x_test)
+        #print("-----------------------------------")
+        #print(self.x_test)
         self.x_hypo = plotTools.plot_decision_boundary(self.x_test)
-        print("-----------------------------------")
+        #print("-----------------------------------")
         return self.x_hypo
+    # show result plt
+    def showResultPlt(self,xx,yy,zz):
+        plt.contourf(xx,yy,zz, cmap=plt.cm.coolwarm, alpha=0.8)# 画等高线
+        plt.scatter(self.x_test[:, 0], self.x_test[:, 1], c=self.y_test, s=200)
+        plt.show()
+    def getZZ(self, ret, xx):
+        if isinstance(ret, tuple):#cv2 result
+            print("cv2")
+            zz = ret[1]
+        else:# sklearn result
+            print("sklearn")
+            zz = ret
+        zz = zz.reshape(xx.shape)
+        return zz
 if __name__ == ("__main__"):
     
     bayes = Bayes()
@@ -50,4 +69,12 @@ if __name__ == ("__main__"):
     bayes.splitData()
     bayes.createModel()
     #bayes.predict()
-    print(bayes.getXHypo())
+    #print(bayes.getXHypo())
+    xx, yy, x_hypo = bayes.getXHypo()
+    ret = bayes.predict(x_hypo)
+    print("---------------------------")
+    print(ret.shape)
+    print("---------------------------")
+    zz = bayes.getZZ(ret, xx)
+    bayes.showResultPlt(xx, yy, zz)
+    
